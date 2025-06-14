@@ -267,7 +267,19 @@ Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version numbe
 ![2](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img2.png)
 
 5. `Demo с лекции отработало , пробую загрузить свой стейт с ДЗ 4`
-6. 
+6. `Добавил изменения в провайдерс папку под стейт файл назвал Terraform 05 `
+
+![2](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img4.png)
+
+7. `Файл загружен `
+8. `Настраиваем блокировку, добавляем DB в YC`
+
+![5](https://github.com/Foxbeerxxx/team_terraform/blob/main/img/img5.png)
+
+
+
+
+
 
 ```
 Поле для вставки кода...

@@ -1,15 +1,16 @@
-# коментировал перед s3
-#terraform {
-#  required_providers {
-#    yandex = {
-#      source = "yandex-cloud/yandex"
-#    }
-#  }
-#  required_version = ">= 1.8.4"
-#}
 
+# cat ~/.aws/config 
+# [default]
+# region=ru-central1
+# cat ~/.aws/credentials 
+# [default]
+# aws_access_key_id = YCAJEK...
+# aws_secret_access_key = YCMBzZ3...
+
+
+#For terraform >=1.6<=1.8.5
 terraform {
-  required_version = "1.8.4"
+  required_version = ">= 1.8.4, < 2.0.0"
 
   backend "s3" {
     
@@ -18,8 +19,8 @@ terraform {
     profile = "default"
     region="ru-central1"
 
-    bucket     = "fbr" #FIO-netology-tfstate
-    key = "production/terraform.tfstate"
+    bucket     = "fbr" 
+    key = "terraform05/terraform.tfstate"
     
 
     # access_key                  = "..."          #Только для примера! Не хардкодим секретные данные!
@@ -32,11 +33,11 @@ terraform {
     skip_s3_checksum            = true # Необходимая опция при описании бэкенда для Terraform версии 1.6.3 и старше.
 
   endpoints ={
-    #dynamodb = "https://docapi.serverless.yandexcloud.net/ru-central1/b1gn3ndpua1j6jaabf79/etnij6ph9brodq9ohs8d"
+    dynamodb = "https://docapi.serverless.yandexcloud.net/ru-central1/b1gvjpk4qbrvling8qq1/etncb63ba3vhucc146po"
     s3 = "https://storage.yandexcloud.net"
   }
 
-    #dynamodb_table              = "tfstate-lock-develop"
+    dynamodb_table              = "fbr1406"
   }
 
   required_providers {
@@ -47,11 +48,6 @@ terraform {
   }
 }
 
-
-
-
-
-
 provider "yandex" {
   # token                    = "do not use!!!"
   cloud_id                 = "b1gvjpk4qbrvling8qq1"
@@ -59,3 +55,27 @@ provider "yandex" {
   service_account_key_file = file("~/authorized_key.json")
   zone                     = "ru-central1-a" #(Optional) 
 }
+
+
+
+
+# For terraform <1.6.0
+# terraform {
+#   required_providers {
+#   }
+#   backend "s3" {
+#     bucket   = "...."
+#     endpoint = "storage.yandexcloud.net"
+#     key      = "..../terraform.tfstate"
+#     region   = "ru-central1"
+#     # access_key                  = "..."          #Только для примера! Не хардкодим секретные данные!
+#     # secret_key                  = "..."          #Только для примера! Не хардкодим секретные данные!
+
+#     dynamodb_table    = "tfstate-lock-develop" #таблица блокировок
+#     dynamodb_endpoint = "https://docapi.serverless.yandexcloud.net/ru-central1/........."
+
+#     skip_region_validation      = true
+#     skip_credentials_validation = true
+#   }
+#   required_version = "~>1.8.4"
+# }
