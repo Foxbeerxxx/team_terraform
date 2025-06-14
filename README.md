@@ -246,7 +246,7 @@ Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version numbe
                 60 | 
                 61 | }
 
-
+```
 
 ---
 
