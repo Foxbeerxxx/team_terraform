@@ -269,28 +269,24 @@ Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version numbe
 5. `Demo с лекции отработало , пробую загрузить свой стейт с ДЗ 4`
 6. `Добавил изменения в провайдерс папку под стейт файл назвал Terraform 05 `
 
-![2](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img4.png)
+![4](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img4.png)
 
 7. `Файл загружен `
 8. `Настраиваем блокировку, добавляем DB в YC`
 
-![5](https://github.com/Foxbeerxxx/team_terraform/blob/main/img/img5.png)
+![5](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img5.png)
+
+9. `После внесения изменений, запускаю terragorm applly держу стайт файл`
+![6](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img6.png)
+
+10. `И проверяю в YC`
+![7](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img7.png)
+
+11. `Разблокирую по id`
+![8](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img8.png)
 
 
 
-
-
-
-```
-Поле для вставки кода...
-....
-....
-....
-....
-```
-
-`При необходимости прикрепитe сюда скриншоты
-`
 
 
 ---
