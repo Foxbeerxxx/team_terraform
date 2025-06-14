@@ -1,36 +1,130 @@
-# Домашнее задание к занятию "`Название занятия`" - `Фамилия и имя студента`
+# Домашнее задание к занятию "`Командная работа Terraform`" - `Татаринцев Алексей`
 
-
-### Инструкция по выполнению домашнего задания
-
-   1. Сделайте `fork` данного репозитория к себе в Github и переименуйте его по названию или номеру занятия, например, https://github.com/имя-вашего-репозитория/git-hw или  https://github.com/имя-вашего-репозитория/7-1-ansible-hw).
-   2. Выполните клонирование данного репозитория к себе на ПК с помощью команды `git clone`.
-   3. Выполните домашнее задание и заполните у себя локально этот файл README.md:
-      - впишите вверху название занятия и вашу фамилию и имя
-      - в каждом задании добавьте решение в требуемом виде (текст/код/скриншоты/ссылка)
-      - для корректного добавления скриншотов воспользуйтесь [инструкцией "Как вставить скриншот в шаблон с решением](https://github.com/netology-code/sys-pattern-homework/blob/main/screen-instruction.md)
-      - при оформлении используйте возможности языка разметки md (коротко об этом можно посмотреть в [инструкции  по MarkDown](https://github.com/netology-code/sys-pattern-homework/blob/main/md-instruction.md))
-   4. После завершения работы над домашним заданием сделайте коммит (`git commit -m "comment"`) и отправьте его на Github (`git push origin`);
-   5. Для проверки домашнего задания преподавателем в личном кабинете прикрепите и отправьте ссылку на решение в виде md-файла в вашем Github.
-   6. Любые вопросы по выполнению заданий спрашивайте в чате учебной группы и/или в разделе “Вопросы по заданию” в личном кабинете.
-   
-Желаем успехов в выполнении домашнего задания!
-   
-### Дополнительные материалы, которые могут быть полезны для выполнения задания
-
-1. [Руководство по оформлению Markdown файлов](https://gist.github.com/Jekins/2bf2d0638163f1294637#Code)
 
 ---
 
 ### Задание 1
 
-`Приведите ответ в свободной форме........`
 
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
+1. `Для начала установлю инструменты tflint и checkov.`
+
+```
+curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+и проверяем версию
+
+alexey@dell:~$ tflint --version
+TFLint version 0.58.0
++ ruleset.terraform (0.12.0-bundled)
+
+```
+
+
+
+2. `Также делаем для checkov`
+```
+sudo apt update
+sudo apt install python3-pip -y
+pip3 install checkov
+и проверяем версию
+checkov --version
+```
+3. `Захожу в папку ter-homeworks/04/src/ и проверяю tflint`
+
+```
+Вижу ошибки
+
+alexey@dell:~/ter-homeworks/04/src$ tflint
+4 issue(s) found:
+
+Warning: Missing version constraint for provider "yandex" in `required_providers` (terraform_required_providers)
+
+  on providers.tf line 3:
+   3:     yandex = {
+   4:       source = "yandex-cloud/yandex"
+   5:     }
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_required_providers.md
+
+Warning: [Fixable] variable "vms_ssh_root_key" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 36:
+  36: variable "vms_ssh_root_key" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+Warning: [Fixable] variable "vm_web_name" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 43:
+  43: variable "vm_web_name" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+Warning: [Fixable] variable "vm_db_name" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 50:
+  50: variable "vm_db_name" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+alexey@dell:~/ter-homeworks/04/src$ 
+
+  on variables.tf line 50:
+  50: variable "vm_db_name" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md.0/docs/rules/terraform_unused_declarations.md
+
+```
+4. `Следом проверяю второй репозитори ter-homeworks/04/demonstration1/vms/`
+
+```
+alexey@dell:~$ cd ter-homeworks/04/demonstration1/vms/
+alexey@dell:~/ter-homeworks/04/demonstration1/vms$ tflint
+5 issue(s) found:
+
+Warning: Module source "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main" uses a default branch as ref (main) (terraform_module_pinned_source)
+
+  on main.tf line 23:
+  23:   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_module_pinned_source.md
+
+Warning: Module source "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main" uses a default branch as ref (main) (terraform_module_pinned_source)
+
+  on main.tf line 46:
+  46:   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_module_pinned_source.md
+
+Warning: Missing version constraint for provider "template" in `required_providers` (terraform_required_providers)
+
+  on main.tf line 64:
+  64: data "template_file" "cloudinit" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_required_providers.md
+
+Warning: Missing version constraint for provider "yandex" in `required_providers` (terraform_required_providers)
+
+  on providers.tf line 3:
+   3:     yandex = {
+   4:       source = "yandex-cloud/yandex"
+   5:     }
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_required_providers.md
+
+Warning: [Fixable] variable "public_key" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 3:
+   3: variable "public_key" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+```
+
+5. `И проверка Checkov`
+```
+
+
+```
 6. 
 
 ```
