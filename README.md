@@ -121,25 +121,136 @@ Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0
 ```
 
 5. `И проверка Checkov`
-```
 
-
-```
-6. 
+![1](https://github.com/Foxbeerxxx/team_terraform/blob/main/img/img1.png)
 
 ```
-Поле для вставки кода...
-....
-....
-....
-....
-```
+alexey@dell:~/ter-homeworks/04/demonstration1/vms$ checkov -d .
+2025-06-14 19:46:17,367 [MainThread  ] [WARNI]  Failed to download module git::https://github.com/udjin10/yandex_compute_instance.git?ref=main:None (for external modules, the --download-external-modules flag is required)
+[ kubernetes framework ]: 100%|████████████████████|[1/1], Current File Scanned=cloud-init.yml
+[ terraform framework ]: 100%|████████████████████|[4/4], Current File Scanned=variables.tf           
+[ ansible framework ]: 100%|████████████████████|[1/1], Current File Scanned=cloud-init.yml
+[ secrets framework ]: 100%|████████████████████|[5/5], Current File Scanned=./variables.tf           
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 1](ссылка на скриншот 1)`
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.441 
+
+terraform scan results:
+
+Passed checks: 0, Failed checks: 4, Skipped checks: 0
+
+Check: CKV_TF_1: "Ensure Terraform module sources use a commit hash"
+        FAILED for resource: test-vm
+        File: /main.tf:22-43
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-git-url-with-commit-hash-revision
+
+                22 | module "test-vm" {
+                23 |   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+                24 |   env_name       = "develop" 
+                25 |   network_id     = yandex_vpc_network.develop.id
+                26 |   subnet_zones   = ["ru-central1-a","ru-central1-b"]
+                27 |   subnet_ids     = [yandex_vpc_subnet.develop_a.id,yandex_vpc_subnet.develop_b.id]
+                28 |   instance_name  = "webs"
+                29 |   instance_count = 2
+                30 |   image_family   = "ubuntu-2004-lts"
+                31 |   public_ip      = true
+                32 | 
+                33 |   labels = { 
+                34 |     owner= "i.ivanov",
+                35 |     project = "accounting"
+                36 |      }
+                37 | 
+                38 |   metadata = {
+                39 |     user-data          = data.template_file.cloudinit.rendered #Для демонстрации №3
+                40 |     serial-port-enable = 1
+                41 |   }
+                42 | 
+                43 | }
+
+Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version number"
+        FAILED for resource: test-vm
+        File: /main.tf:22-43
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-tag
+
+                22 | module "test-vm" {
+                23 |   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+                24 |   env_name       = "develop" 
+                25 |   network_id     = yandex_vpc_network.develop.id
+                26 |   subnet_zones   = ["ru-central1-a","ru-central1-b"]
+                27 |   subnet_ids     = [yandex_vpc_subnet.develop_a.id,yandex_vpc_subnet.develop_b.id]
+                28 |   instance_name  = "webs"
+                29 |   instance_count = 2
+                30 |   image_family   = "ubuntu-2004-lts"
+                31 |   public_ip      = true
+                32 | 
+                33 |   labels = { 
+                34 |     owner= "i.ivanov",
+                35 |     project = "accounting"
+                36 |      }
+                37 | 
+                38 |   metadata = {
+                39 |     user-data          = data.template_file.cloudinit.rendered #Для демонстрации №3
+                40 |     serial-port-enable = 1
+                41 |   }
+                42 | 
+                43 | }
+
+Check: CKV_TF_1: "Ensure Terraform module sources use a commit hash"
+        FAILED for resource: example-vm
+        File: /main.tf:45-61
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-git-url-with-commit-hash-revision
+
+                45 | module "example-vm" {
+                46 |   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+                47 |   env_name       = "stage"
+                48 |   network_id     = yandex_vpc_network.develop.id
+                49 |   subnet_zones   = ["ru-central1-a"]
+                50 |   subnet_ids     = [yandex_vpc_subnet.develop_a.id]
+                51 |   instance_name  = "web-stage"
+                52 |   instance_count = 1
+                53 |   image_family   = "ubuntu-2004-lts"
+                54 |   public_ip      = true
+                55 | 
+                56 |   metadata = {
+                57 |     user-data          = data.template_file.cloudinit.rendered #Для демонстрации №3
+                58 |     serial-port-enable = 1
+                59 |   }
+                60 | 
+                61 | }
+
+Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version number"
+        FAILED for resource: example-vm
+        File: /main.tf:45-61
+        Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-tag
+
+                45 | module "example-vm" {
+                46 |   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+                47 |   env_name       = "stage"
+                48 |   network_id     = yandex_vpc_network.develop.id
+                49 |   subnet_zones   = ["ru-central1-a"]
+                50 |   subnet_ids     = [yandex_vpc_subnet.develop_a.id]
+                51 |   instance_name  = "web-stage"
+                52 |   instance_count = 1
+                53 |   image_family   = "ubuntu-2004-lts"
+                54 |   public_ip      = true
+                55 | 
+                56 |   metadata = {
+                57 |     user-data          = data.template_file.cloudinit.rendered #Для демонстрации №3
+                58 |     serial-port-enable = 1
+                59 |   }
+                60 | 
+                61 | }
+
 
 
 ---
+
+
 
 ### Задание 2
 
@@ -161,7 +272,7 @@ Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0
 ```
 
 `При необходимости прикрепитe сюда скриншоты
-![Название скриншота 2](ссылка на скриншот 2)`
+`
 
 
 ---
