@@ -285,7 +285,7 @@ Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version numbe
 11. `Разблокирую по id`
 ![8](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img8.png)
 
-
+12. `Блокировка снята`
 
 
 
