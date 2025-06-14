@@ -293,11 +293,196 @@ Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version numbe
 
 ### Задание 3
 
-`Приведите ответ в свободной форме........`
 
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
+
+1. `Создал ветку terraform-hotfix`
+2. `Проверка кода tflint и checkov`
+
+```
+tflint
+checkov -d .
+
+```
+3. `Вывод`
+
+```
+alexey@dell:~/team_terraform/vms$ tflint
+2 issue(s) found:
+
+Warning: Missing version constraint for provider "template" in `required_providers` (terraform_required_providers)
+
+  on main.tf line 5:
+   5: data "template_file" "cloud_init" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_required_providers.md
+
+Warning: [Fixable] variable "public_key" is declared but not used (terraform_unused_declarations)
+
+  on variables.tf line 3:
+   3: variable "public_key" {
+
+Reference: https://github.com/terraform-linters/tflint-ruleset-terraform/blob/v0.12.0/docs/rules/terraform_unused_declarations.md
+
+alexey@dell:~/team_terraform/vms$ checkov -d .
+[ kubernetes framework ]: 100%|████████████████████|[1/1], Current File Scanned=cloud-init.yml
+[ ansible framework ]: 100%|████████████████████|[1/1], Current File Scanned=cloud-init.yml_outputs.tf
+[ terraform framework ]: 100%|████████████████████|[4/4], Current File Scanned=variables.tf           
+[ secrets framework ]: 100%|████████████████████|[5/5], Current File Scanned=./variables.tf           
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.441 
+
+terraform scan results:
+
+Passed checks: 2, Failed checks: 4, Skipped checks: 0
+
+Check: CKV_YC_4: "Ensure compute instance does not have serial console enabled."
+        PASSED for resource: yandex_compute_instance.vm_marketing
+        File: /main.tf:12-40
+Check: CKV_YC_4: "Ensure compute instance does not have serial console enabled."
+        PASSED for resource: yandex_compute_instance.vm_analytics
+        File: /main.tf:42-70
+Check: CKV_YC_11: "Ensure security group is assigned to network interface."
+        FAILED for resource: yandex_compute_instance.vm_marketing
+        File: /main.tf:12-40
+
+                12 | resource "yandex_compute_instance" "vm_marketing" {
+                13 |   name        = "vm-marketing"
+                14 |   platform_id = "standard-v1"
+                15 |   zone        = "ru-central1-a"  
+                16 | 
+                17 |   resources {
+                18 |     cores  = 2
+                19 |     memory = 2
+                20 |   }
+                21 | 
+                22 |   boot_disk {
+                23 |     initialize_params {
+                24 |       image_id = var.image_id
+                25 |     }
+                26 |   }
+                27 | 
+                28 |   network_interface {
+                29 |     subnet_id = var.subnet_id
+                30 |     nat       = true
+                31 |   }
+                32 | 
+                33 |   metadata = {
+                34 |     user-data = data.template_file.cloud_init.rendered
+                35 |   }
+                36 | 
+                37 |   labels = {
+                38 |     project = "marketing"
+                39 |   }
+                40 | }
+
+Check: CKV_YC_2: "Ensure compute instance does not have public IP."
+        FAILED for resource: yandex_compute_instance.vm_marketing
+        File: /main.tf:12-40
+
+                12 | resource "yandex_compute_instance" "vm_marketing" {
+                13 |   name        = "vm-marketing"
+                14 |   platform_id = "standard-v1"
+                15 |   zone        = "ru-central1-a"  
+                16 | 
+                17 |   resources {
+                18 |     cores  = 2
+                19 |     memory = 2
+                20 |   }
+                21 | 
+                22 |   boot_disk {
+                23 |     initialize_params {
+                24 |       image_id = var.image_id
+                25 |     }
+                26 |   }
+                27 | 
+                28 |   network_interface {
+                29 |     subnet_id = var.subnet_id
+                30 |     nat       = true
+                31 |   }
+                32 | 
+                33 |   metadata = {
+                34 |     user-data = data.template_file.cloud_init.rendered
+                35 |   }
+                36 | 
+                37 |   labels = {
+                38 |     project = "marketing"
+                39 |   }
+                40 | }
+
+Check: CKV_YC_11: "Ensure security group is assigned to network interface."
+        FAILED for resource: yandex_compute_instance.vm_analytics
+        File: /main.tf:42-70
+
+                42 | resource "yandex_compute_instance" "vm_analytics" {
+                43 |   name        = "vm-analytics"
+                44 |   platform_id = "standard-v1"
+                45 |   zone        = "ru-central1-a"
+                46 | 
+                47 |   resources {
+                48 |     cores  = 2
+                49 |     memory = 2
+                50 |   }
+                51 | 
+                52 |   boot_disk {
+                53 |     initialize_params {
+                54 |       image_id = var.image_id
+                55 |     }
+                56 |   }
+                57 | 
+                58 |   network_interface {
+                59 |     subnet_id = var.subnet_id
+                60 |     nat       = true
+                61 |   }
+                62 | 
+                63 |   metadata = {
+                64 |     user-data = data.template_file.cloud_init.rendered
+                65 |   }
+                66 | 
+                67 |   labels = {
+                68 |     project = "analytics"
+                69 |   }
+                70 | }
+
+Check: CKV_YC_2: "Ensure compute instance does not have public IP."
+        FAILED for resource: yandex_compute_instance.vm_analytics
+        File: /main.tf:42-70
+
+                42 | resource "yandex_compute_instance" "vm_analytics" {
+                43 |   name        = "vm-analytics"
+                44 |   platform_id = "standard-v1"
+                45 |   zone        = "ru-central1-a"
+                46 | 
+                47 |   resources {
+                48 |     cores  = 2
+                49 |     memory = 2
+                50 |   }
+                51 | 
+                52 |   boot_disk {
+                53 |     initialize_params {
+                54 |       image_id = var.image_id
+                55 |     }
+                56 |   }
+                57 | 
+                58 |   network_interface {
+                59 |     subnet_id = var.subnet_id
+                60 |     nat       = true
+                61 |   }
+                62 | 
+                63 |   metadata = {
+                64 |     user-data = data.template_file.cloud_init.rendered
+                65 |   }
+                66 | 
+                67 |   labels = {
+                68 |     project = "analytics"
+                69 |   }
+                70 | }
+```
 4. `Заполните здесь этапы выполнения, если требуется ....`
 5. `Заполните здесь этапы выполнения, если требуется ....`
 6. 
