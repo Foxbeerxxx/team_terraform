@@ -258,10 +258,10 @@ Check: CKV_TF_2: "Ensure Terraform module sources use a tag with a version numbe
 
 1. `В YC создал Object Storage,он у меня называется fbr`
 2. `Создал серввисный аккаунт baket`
-![3](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img3.png)
+![3](https://github.com/Foxbeerxxx/team_terraform/blob/main/img/img3.png)
 3. `Положил все секреты в ~/.aws/credentials, папку и файл создал сам`
 4. `Запустил тест на demo для  провеки , какие ошибки будут и посмотреть как это работает`
-![2](https://github.com/Foxbeerxxx/team_terraform/blob/terraform-05/img/img2.png)
+![2](https://github.com/Foxbeerxxx/team_terraform/blob/main/img/img2.png)
 5. `Demo с лекции отработало , пробую загрузить свой стейт с ДЗ 4`
 6. 
 
